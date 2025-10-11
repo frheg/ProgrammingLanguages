@@ -6,3 +6,4 @@ This repository will contain code where I experiment with new programming langua
 
 - C++
 - Rust
+- Go (might be coming later)
