@@ -1,13 +1,21 @@
 
-.data         # declare and initialize variables
-hello:  .asciz "Hello world!" # string with null terminator
- 
-  .text         # code starts here
-main:           # label marking the entry point of the program
-  la a0, hello  # load the address of hello into $a0 (1st argument)
-  addi a7, zero, 4     # code to print the string at the address a0
-  ecall         # make the system call
- 
-  addi a7, zero, 10    # code to exit
-  ecall         # make the system call
+    .section .rodata
+msg:
+    .ascii "Hello world!\n"
+len = . - msg
+
+    .section .text
+    .global _start
+_start:
+    # write(fd=1, buf=msg, count=len)
+    li  a0, 1          # stdout
+    la  a1, msg        # buffer
+    li  a2, len        # length
+    li  a7, 64         # __NR_write on RISC-V Linux
+    ecall
+
+    # exit(status=0)
+    li  a0, 0
+    li  a7, 93         # __NR_exit on RISC-V Linux
+    ecall
 
